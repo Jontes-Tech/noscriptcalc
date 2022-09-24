@@ -42,9 +42,9 @@ app.get('/', (req: any, res: any) => {
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
     <head>
-      <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+      <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
     </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -91,9 +91,9 @@ app.get('/addmenu', (req: any, res: any) => {
   res.send(`
   <!DOCTYPE html>
   <head>
-    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
-  <html>
+  <html lang="en">
     <body>
       <h1>${parseInt(n, 10)}</h1>
       <a href='/doadd?n=0&e=${n}'>0</a>
@@ -120,9 +120,9 @@ app.get('/subtractmenu', (req: any, res: any) => {
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
   <head>
-    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -150,9 +150,9 @@ app.get('/multiplymenu', (req: any, res: any) => {
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
   <head>
-    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -180,9 +180,9 @@ app.get('/dividemenu', (req: any, res: any) => {
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
-  <html>
+  <html lang="en">
   <head>
-    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
