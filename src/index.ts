@@ -1,8 +1,8 @@
 // import libraries 
 import { createLogger } from '@lvksh/logger';
-import chalk from 'chalk';
-import express from 'express';
-import dotenv from 'dotenv';
+import * as chalk from 'chalk';
+import * as express from 'express';
+import * as dotenv from 'dotenv';
 
 // init @lvksh/logger
 const log = createLogger(
