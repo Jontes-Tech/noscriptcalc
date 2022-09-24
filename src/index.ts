@@ -39,12 +39,12 @@ const port = process.env.PORT || 8080
 app.get('/', (req:any, res:any) => {
   let n = req.query.n || 0
   res.type('html');
-  res.set('Cache-control', 'public, max-age=31536000')
+  res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
     <head>
-      <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
+      <link rel="stylesheet" href="/css">
     </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -87,11 +87,11 @@ app.get('/setnum', (req:any, res:any) => {
 // menus and do api endpoints for ['+','-','*','/']
 app.get('/addmenu', (req:any, res:any) => {
   let n = req.query.n
-  res.set('Cache-control', 'public, max-age=31536000')
+  res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <head>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
+    <link rel="stylesheet" href="/css">
   </head>
   <html>
     <body>
@@ -117,12 +117,12 @@ app.get('/doadd', (req:any, res:any) => {
 })
 app.get('/subtractmenu', (req:any, res:any) => {
   let n = req.query.n
-  res.set('Cache-control', 'public, max-age=31536000')
+  res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
+    <link rel="stylesheet" href="/css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -147,12 +147,12 @@ app.get('/dosubtract', (req:any, res:any) => {
 })
 app.get('/multiplymenu', (req:any, res:any) => {
   let n = req.query.n
-  res.set('Cache-control', 'public, max-age=31536000')
+  res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
+    <link rel="stylesheet" href="/css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -177,12 +177,12 @@ app.get('/domultiply', (req:any, res:any) => {
 })
 app.get('/dividemenu', (req:any, res:any) => {
   let n = req.query.n
-  res.set('Cache-control', 'public, max-age=31536000')
+  res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
+    <link rel="stylesheet" href="/css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
