@@ -6,29 +6,29 @@ import * as dotenv from 'dotenv';
 
 // init @lvksh/logger
 const log = createLogger(
-    {
-        ok: {
-            label: chalk.greenBright`[OK]`,
-            newLine: '| ',
-            newLineEnd: '\\-',
-        },
-        debug: chalk.magentaBright`[DEBUG]`,
-        info: {
-            label: chalk.cyan`[INFO]`,
-            newLine: chalk.cyan`⮡`,
-            newLineEnd: chalk.cyan`⮡`,
-        },
-        veryBigNetworkError: chalk.bgRed.white.bold`[NETWORK]`,
+  {
+    ok: {
+      label: chalk.greenBright`[OK]`,
+      newLine: '| ',
+      newLineEnd: '\\-',
     },
-    { padding: 'PREPEND' },
-    console.log
+    debug: chalk.magentaBright`[DEBUG]`,
+    info: {
+      label: chalk.cyan`[INFO]`,
+      newLine: chalk.cyan`⮡`,
+      newLineEnd: chalk.cyan`⮡`,
+    },
+    veryBigNetworkError: chalk.bgRed.white.bold`[NETWORK]`,
+  },
+  { padding: 'PREPEND' },
+  console.log
 );
 
 // init dotenv
 dotenv.config();
 
 // greet user
-log.info('Welcome NoScriptCalc','Just a calculator','No fuss!')
+log.info('Welcome NoScriptCalc', 'Just a calculator', 'No fuss!')
 
 // define expressJS
 const app = express();
@@ -36,7 +36,7 @@ const port = process.env.PORT || 8080
 
 
 // main menu
-app.get('/', (req:any, res:any) => {
+app.get('/', (req: any, res: any) => {
   let n = req.query.n || 0
   res.type('html');
   res.set('Cache-control', 'public, max-age=21600')
@@ -44,7 +44,7 @@ app.get('/', (req:any, res:any) => {
   <!DOCTYPE html>
   <html>
     <head>
-      <link rel="stylesheet" href="/css">
+      <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
     </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -78,20 +78,20 @@ app.get('/', (req:any, res:any) => {
 });
 
 // for the setting of numbers
-app.get('/setnum', (req:any, res:any) => {
+app.get('/setnum', (req: any, res: any) => {
   let n = req.query.n
   let e = req.query.e
-  res.redirect(`/?n=${parseInt(e+n, 10)}`)
+  res.redirect(`/?n=${parseInt(e + n, 10)}`)
 });
 
 // menus and do api endpoints for ['+','-','*','/']
-app.get('/addmenu', (req:any, res:any) => {
+app.get('/addmenu', (req: any, res: any) => {
   let n = req.query.n
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <head>
-    <link rel="stylesheet" href="/css">
+    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
   <html>
     <body>
@@ -110,19 +110,19 @@ app.get('/addmenu', (req:any, res:any) => {
   </html>
   `)
 });
-app.get('/doadd', (req:any, res:any) => {
+app.get('/doadd', (req: any, res: any) => {
   let n = req.query.n
   let e = req.query.e
   res.redirect(`/?n=${Number(e) + Number(n)}`)
 })
-app.get('/subtractmenu', (req:any, res:any) => {
+app.get('/subtractmenu', (req: any, res: any) => {
   let n = req.query.n
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="/css">
+    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -140,19 +140,19 @@ app.get('/subtractmenu', (req:any, res:any) => {
   </html>
   `)
 });
-app.get('/dosubtract', (req:any, res:any) => {
+app.get('/dosubtract', (req: any, res: any) => {
   let n = req.query.n
   let e = req.query.e
   res.redirect(`/?n=${Number(e) - Number(n)}`)
 })
-app.get('/multiplymenu', (req:any, res:any) => {
+app.get('/multiplymenu', (req: any, res: any) => {
   let n = req.query.n
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="/css">
+    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -170,19 +170,19 @@ app.get('/multiplymenu', (req:any, res:any) => {
   </html>
   `)
 });
-app.get('/domultiply', (req:any, res:any) => {
+app.get('/domultiply', (req: any, res: any) => {
   let n = req.query.n
   let e = req.query.e
   res.redirect(`/?n=${Number(e) * Number(n)}`)
 })
-app.get('/dividemenu', (req:any, res:any) => {
+app.get('/dividemenu', (req: any, res: any) => {
   let n = req.query.n
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="/css">
+    <link rel="stylesheet" href="/css"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -200,7 +200,7 @@ app.get('/dividemenu', (req:any, res:any) => {
   </html>
   `)
 });
-app.get('/dodivide', (req:any, res:any) => {
+app.get('/dodivide', (req: any, res: any) => {
   let n = req.query.n
   let e = req.query.e
   res.redirect(`/?n=${Number(e) / Number(n)}`)
