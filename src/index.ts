@@ -45,7 +45,7 @@ app.get('/', (req:any, res:any) => {
   <!DOCTYPE html>
   <html>
     <head>
-      <link rel="stylesheet" href="http://localhost:8082/style.css">
+      <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
     </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -91,7 +91,7 @@ app.get('/addmenu', (req:any, res:any) => {
   res.send(`
   <!DOCTYPE html>
   <head>
-    <link rel="stylesheet" href="http://localhost:8082/style.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
   </head>
   <html>
     <body>
@@ -121,7 +121,7 @@ app.get('/subtractmenu', (req:any, res:any) => {
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="http://localhost:8082/style.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -150,7 +150,7 @@ app.get('/multiplymenu', (req:any, res:any) => {
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="http://localhost:8082/style.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
@@ -179,7 +179,7 @@ app.get('/dividemenu', (req:any, res:any) => {
   <!DOCTYPE html>
   <html>
   <head>
-    <link rel="stylesheet" href="http://localhost:8082/style.css">
+    <link rel="stylesheet" href="https://raw.githubusercontent.com/Jontes-Tech/noscriptcalc/master/style.css">
   </head>
     <body>
       <h1>${parseInt(n, 10)}</h1>
