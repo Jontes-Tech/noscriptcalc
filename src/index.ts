@@ -3,8 +3,6 @@ import { createLogger } from '@lvksh/logger';
 import chalk from 'chalk';
 import express from 'express';
 import dotenv from 'dotenv';
-import { send } from 'process';
-import { stringify } from 'querystring';
 
 // init @lvksh/logger
 const log = createLogger(
@@ -41,6 +39,7 @@ const port = process.env.PORT || 8080
 app.get('/', (req:any, res:any) => {
   let n = req.query.n || 0
   res.type('html');
+  res.set('Cache-control', 'public, max-age=31536000')
   res.send(`
   <!DOCTYPE html>
   <html>
@@ -88,6 +87,7 @@ app.get('/setnum', (req:any, res:any) => {
 // menus and do api endpoints for ['+','-','*','/']
 app.get('/addmenu', (req:any, res:any) => {
   let n = req.query.n
+  res.set('Cache-control', 'public, max-age=31536000')
   res.send(`
   <!DOCTYPE html>
   <head>
@@ -117,6 +117,7 @@ app.get('/doadd', (req:any, res:any) => {
 })
 app.get('/subtractmenu', (req:any, res:any) => {
   let n = req.query.n
+  res.set('Cache-control', 'public, max-age=31536000')
   res.send(`
   <!DOCTYPE html>
   <html>
@@ -146,6 +147,7 @@ app.get('/dosubtract', (req:any, res:any) => {
 })
 app.get('/multiplymenu', (req:any, res:any) => {
   let n = req.query.n
+  res.set('Cache-control', 'public, max-age=31536000')
   res.send(`
   <!DOCTYPE html>
   <html>
@@ -175,6 +177,7 @@ app.get('/domultiply', (req:any, res:any) => {
 })
 app.get('/dividemenu', (req:any, res:any) => {
   let n = req.query.n
+  res.set('Cache-control', 'public, max-age=31536000')
   res.send(`
   <!DOCTYPE html>
   <html>
@@ -201,6 +204,10 @@ app.get('/dodivide', (req:any, res:any) => {
   let n = req.query.n
   let e = req.query.e
   res.redirect(`/?n=${Number(e) / Number(n)}`)
+})
+app.get('/css', (req: any, res: any) => {
+  res.set('Cache-control', 'public, max-age=31536000')
+  res.sendFile(process.cwd() + "/style.css")
 })
 
 // listen
