@@ -3,8 +3,7 @@ import { createLogger } from '@lvksh/logger';
 import * as chalk from 'chalk';
 import * as express from 'express';
 import * as dotenv from 'dotenv';
-import { query } from 'express';
-import { stringify } from 'querystring';
+const compression = require('compression');
 
 // init @lvksh/logger
 const log = createLogger(
@@ -34,7 +33,11 @@ log.info('Welcome NoScriptCalc!', 'It\'s just a calculator,', 'No fuss!')
 
 // define expressJS
 const app = express();
+app.use(compression({level: 6}))
 const port = process.env.PORT || 8080
+
+// Set global vars
+const ops = ['add', 'subtract', 'multiply', 'divide']
 
 
 // main menu
@@ -46,7 +49,11 @@ app.get('/', (req: any, res: any) => {
   <!DOCTYPE html>
   <html lang="en">
     <head>
-      <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
+      <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/favicon-16x16.png">
+      <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/site.webmanifest">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/style.css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
     </head>
     <body>
       <h1>${n}</h1>
@@ -69,10 +76,10 @@ app.get('/', (req: any, res: any) => {
       </div>
       <br>
       <div>
-      <a class='op' href='/addmenu?e=${n}'>+</a>
-      <a class='op' href='/subtractmenu?e=${n}'>-</a>
-      <a class='op' href='/multiplymenu?e=${n}'>*</a>
-      <a class='op' href='/dividemenu?e=${n}'>/</a>
+      <a class='op' href='/menu/add?e=${n}'>+</a>
+      <a class='op' href='/menu/subtract?e=${n}'>-</a>
+      <a class='op' href='/menu/multiply?e=${n}'>*</a>
+      <a class='op' href='/menu/divide?e=${n}'>/</a>
       </div>
     </body>
   </html>
@@ -87,12 +94,19 @@ app.get('/setnum', (req: any, res: any) => {
 });
 
 // menus and do api endpoints for ['+','-','*','/']
-app.get('/addmenu', (req: any, res: any) => {
+app.get('/menu/:o', (req: any, res: any) => {
+  let o = req.params.o
   let e = req.query.e
   let n = req.query.n || 0
   let d = ''
+  if (!ops.includes(o)) {
+    log.debug(`Someone tried operation ${o}, didn't work!`)
+    res.set('Cache-control', 'public, max-age=21600')
+    res.send(`417 - Expected one of "${ops}", got "${o}"`)
+    return
+  }
   if (n !== undefined) {
-   d = `+${n}`
+    d = `+${n}`
   }
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
@@ -102,149 +116,34 @@ app.get('/addmenu', (req: any, res: any) => {
   </head>
   <html lang="en">
     <body>
-      <h1>${e+d}</h1>
-      <a href='/addmenu?n=${n+0}&e=${e}'>0</a>
-      <a href='/addmenu?n=${n+1}&e=${e}'>1</a>
-      <a href='/addmenu?n=${n+2}&e=${e}'>2</a>
-      <a href='/addmenu?n=${n+3}&e=${e}'>3</a>
-      <a href='/addmenu?n=${n+4}&e=${e}'>4</a>
-      <a href='/addmenu?n=${n+5}&e=${e}'>5</a>
-      <a href='/addmenu?n=${n+6}&e=${e}'>6</a>
-      <a href='/addmenu?n=${n+7}&e=${e}'>7</a>
-      <a href='/addmenu?n=${n+8}&e=${e}'>8</a>
-      <a href='/addmenu?n=${n+9}&e=${e}'>9</a>
+      <h1>${e + d}</h1>
+      <a href='/menu/${o}?n=${n + 0}&e=${e}'>0</a>
+      <a href='/menu/${o}?n=${n + 1}&e=${e}'>1</a>
+      <a href='/menu/${o}?n=${n + 2}&e=${e}'>2</a>
+      <a href='/menu/${o}?n=${n + 3}&e=${e}'>3</a>
+      <a href='/menu/${o}?n=${n + 4}&e=${e}'>4</a>
+      <a href='/menu/${o}?n=${n + 5}&e=${e}'>5</a>
+      <a href='/menu/${o}?n=${n + 6}&e=${e}'>6</a>
+      <a href='/menu/${o}?n=${n + 7}&e=${e}'>7</a>
+      <a href='/menu/${o}?n=${n + 8}&e=${e}'>8</a>
+      <a href='/menu/${o}?n=${n + 9}&e=${e}'>9</a>
       <br>
       <br>
-      <a class='op' href='/doadd?e=${e}&n=${n}'>=</a>
+      <a class='op' href='/do/${o}?e=${e}&n=${n}'>=</a>
     </body>
   </html>
   `)
 });
-app.get('/doadd', (req: any, res: any) => {
+app.get('/do/:o', (req: any, res: any) => {
+  let o = req.params.o
   let n = req.query.n
   let e = req.query.e
+  if (!ops.includes(o)) {
+    res.set('Cache-control', 'public, max-age=21600')
+    res.send(`417 - Expected one of "${ops}", got "${o}"`)
+    return
+  }
   res.redirect(`/?n=${Number(e) + Number(n)}`)
-})
-// menus and do api endpoints for ['+','-','*','/']
-app.get('/subtractmenu', (req: any, res: any) => {
-  let e = req.query.e
-  let n = req.query.n || 0
-  let d = ''
-  if (n !== undefined) {
-   d = `+${n}`
-  }
-  res.set('Cache-control', 'public, max-age=21600')
-  res.send(`
-  <!DOCTYPE html>
-  <head>
-    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
-  </head>
-  <html lang="en">
-    <body>
-      <h1>${e+d}</h1>
-      <a href='/subtractmenu?n=${n+0}&e=${e}'>0</a>
-      <a href='/subtractmenu?n=${n+1}&e=${e}'>1</a>
-      <a href='/subtractmenu?n=${n+2}&e=${e}'>2</a>
-      <a href='/subtractmenu?n=${n+3}&e=${e}'>3</a>
-      <a href='/subtractmenu?n=${n+4}&e=${e}'>4</a>
-      <a href='/subtractmenu?n=${n+5}&e=${e}'>5</a>
-      <a href='/subtractmenu?n=${n+6}&e=${e}'>6</a>
-      <a href='/subtractmenu?n=${n+7}&e=${e}'>7</a>
-      <a href='/subtractmenu?n=${n+8}&e=${e}'>8</a>
-      <a href='/subtractmenu?n=${n+9}&e=${e}'>9</a>
-      <br>
-      <br>
-      <a class='op' href='/dosubtract?e=${e}&n=${n}'>=</a>
-    </body>
-  </html>
-  `)
-});
-app.get('/dosubtract', (req: any, res: any) => {
-  let n = req.query.n
-  let e = req.query.e
-  res.redirect(`/?n=${Number(e) - Number(n)}`)
-})
-// menus and do api endpoints for ['+','-','*','/']
-app.get('/multiplymenu', (req: any, res: any) => {
-  let e = req.query.e
-  let n = req.query.n || 0
-  let d = ''
-  if (n !== undefined) {
-   d = `+${n}`
-  }
-  res.set('Cache-control', 'public, max-age=21600')
-  res.send(`
-  <!DOCTYPE html>
-  <head>
-    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
-  </head>
-  <html lang="en">
-    <body>
-      <h1>${e+d}</h1>
-      <a href='/multiplymenu?n=${n+0}&e=${e}'>0</a>
-      <a href='/multiplymenu?n=${n+1}&e=${e}'>1</a>
-      <a href='/multiplymenu?n=${n+2}&e=${e}'>2</a>
-      <a href='/multiplymenu?n=${n+3}&e=${e}'>3</a>
-      <a href='/multiplymenu?n=${n+4}&e=${e}'>4</a>
-      <a href='/multiplymenu?n=${n+5}&e=${e}'>5</a>
-      <a href='/multiplymenu?n=${n+6}&e=${e}'>6</a>
-      <a href='/multiplymenu?n=${n+7}&e=${e}'>7</a>
-      <a href='/multiplymenu?n=${n+8}&e=${e}'>8</a>
-      <a href='/multiplymenu?n=${n+9}&e=${e}'>9</a>
-      <br>
-      <br>
-      <a class='op' href='/domultiply?e=${e}&n=${n}'>=</a>
-    </body>
-  </html>
-  `)
-});
-app.get('/domultiply', (req: any, res: any) => {
-  let n = req.query.n
-  let e = req.query.e
-  res.redirect(`/?n=${Number(e) - Number(n)}`)
-})
-// menus and do api endpoints for ['+','-','*','/']
-app.get('/dividemenu', (req: any, res: any) => {
-  let e = req.query.e
-  let n = req.query.n || 0
-  let d = ''
-  if (n !== undefined) {
-   d = `+${n}`
-  }
-  res.set('Cache-control', 'public, max-age=21600')
-  res.send(`
-  <!DOCTYPE html>
-  <head>
-    <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
-  </head>
-  <html lang="en">
-    <body>
-      <h1>${e+d}</h1>
-      <a href='/dividemenu?n=${n+0}&e=${e}'>0</a>
-      <a href='/dividemenu?n=${n+1}&e=${e}'>1</a>
-      <a href='/dividemenu?n=${n+2}&e=${e}'>2</a>
-      <a href='/dividemenu?n=${n+3}&e=${e}'>3</a>
-      <a href='/dividemenu?n=${n+4}&e=${e}'>4</a>
-      <a href='/dividemenu?n=${n+5}&e=${e}'>5</a>
-      <a href='/dividemenu?n=${n+6}&e=${e}'>6</a>
-      <a href='/dividemenu?n=${n+7}&e=${e}'>7</a>
-      <a href='/dividemenu?n=${n+8}&e=${e}'>8</a>
-      <a href='/dividemenu?n=${n+9}&e=${e}'>9</a>
-      <br>
-      <br>
-      <a class='op' href='/dodivide?e=${e}&n=${n}'>=</a>
-    </body>
-  </html>
-  `)
-});
-app.get('/dodivide', (req: any, res: any) => {
-  let n = req.query.n
-  let e = req.query.e
-  res.redirect(`/?n=${Number(e) - Number(n)}`)
-})
-app.get('/css', (req: any, res: any) => {
-  res.set('Cache-control', 'public, max-age=31536000')
-  res.sendFile(process.cwd() + "/style.css")
 })
 
 // listen

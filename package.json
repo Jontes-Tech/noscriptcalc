@@ -2,7 +2,7 @@
   "name": "noscriptcalc",
   "version": "1.0.0",
   "description": "A calculator webapp without client side Javascript",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
     "dev": "tsc src/index.ts; node src/index.js",
     "build": "tsc src/index.ts"
@@ -17,6 +17,7 @@
     "@lvksh/logger": "^1.6.3",
     "@types/node": "^18.7.19",
     "chalk": "^4.1.2",
+    "compression": "^1.7.4",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "typescript": "^4.8.3"
