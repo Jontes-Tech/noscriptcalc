@@ -112,6 +112,11 @@ app.get('/menu/:o', (req: any, res: any) => {
   res.send(`
   <!DOCTYPE html>
   <head>
+    <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/favicon-16x16.png">
+    <link rel="manifest" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/site.webmanifest">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Jontes-Tech/noscriptcalc@master/static/style.css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
     <link rel="stylesheet" href="/css"><meta name="description" content="NoscriptCalc is a calculator webapp without client side JS"><title>NoScriptCalc</title><meta content="width=device-width,initial-scale=1" name=viewport>
   </head>
   <html lang="en">
