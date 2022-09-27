@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "tsc src/index.ts; node src/index.js",
     "build": "tsc src/index.ts",
-    "prod": "echo 'Building!'; tsc src/index.ts; echo 'Prepare!'; ssh jonte@192.168.50.4 'cd /home/jonte/noscriptcalc; git pull; yarn'; echo 'Sending!'; scp src/index.js jonte@192.168.50.4:/home/jonte/noscriptcalc/src/index.js; echo 'Done!'"
+    "prod": "echo 'Building!'; tsc src/index.ts; echo 'Prepare!'; ssh jonte@192.168.50.4 'cd /home/jonte/noscriptcalc; git pull; yarn'; echo 'Sending!'; scp src/index.js jonte@192.168.50.4:/home/jonte/noscriptcalc/src/index.js; echo 'Restarting NodeJS'; ssh jonte@192.168.50.4 sudo -S systemctl restart calc.service; echo 'Done!'"
   },
   "keywords": [],
   "author": "Jontes-Tech",
