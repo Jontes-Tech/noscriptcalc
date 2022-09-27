@@ -39,10 +39,9 @@ const port = process.env.PORT || 8080
 // Set global vars
 const ops = ['add', 'subtract', 'multiply', 'divide']
 
-
 // main menu
 app.get('/', (req: any, res: any) => {
-  let n = req.query.n || 0
+  const n = req.query.n || 0
   res.type('html');
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
@@ -57,9 +56,7 @@ app.get('/', (req: any, res: any) => {
     </head>
     <body>
       <h1>${n}</h1>
-      <div>
       <a id='c' href='/?n=0'>clear</a>
-      </div>
       <br>
       <br>
       <div>
@@ -81,6 +78,7 @@ app.get('/', (req: any, res: any) => {
       <a class='op' href='/menu/multiply?e=${n}'>*</a>
       <a class='op' href='/menu/divide?e=${n}'>/</a>
       </div>
+      <p class='footer'>Fun fact: This calculator works even with Javascript disabled! GPL 3.0/<a class='link' href='https://github.com/Jontes-Tech/noscriptcalc/graphs/contributors'>Contributors</a></p>
     </body>
   </html>
   `);
@@ -88,16 +86,18 @@ app.get('/', (req: any, res: any) => {
 
 // for the setting of numbers
 app.get('/setnum', (req: any, res: any) => {
-  let n = req.query.n
-  let e = req.query.e
+  const n = req.query.n
+  const e = req.query.e
   res.redirect(`/?n=${parseInt(e + n, 10)}`)
 });
 
 // menus and do api endpoints for ['+','-','*','/']
 app.get('/menu/:o', (req: any, res: any) => {
-  let o = req.params.o
-  let e = req.query.e
-  let n = req.query.n || 0
+  const o = req.params.o
+  const e = req.query.e
+  const n = req.query.n || 0
+  let result = ''
+
   let d = ''
   if (!ops.includes(o)) {
     log.debug(`Someone tried operation ${o}, didn't work!`)
@@ -105,8 +105,25 @@ app.get('/menu/:o', (req: any, res: any) => {
     res.send(`417 - Expected one of "${ops}", got "${o}"`)
     return
   }
+  switch (o) {
+    case 'add':
+      result = '+'
+      break
+    case 'subtract':
+      result = '-'
+      break
+    case 'multiply':
+      result = '*'
+      break
+    case 'divide':
+      result = '/'
+      break
+    default:
+      res.send(`FATAL CALC ERROR: (This is not supposed to be happening!)`)
+      return
+  }
   if (n !== undefined) {
-    d = `+${n}`
+    d = result + n;
   }
   res.set('Cache-control', 'public, max-age=21600')
   res.send(`
@@ -135,6 +152,7 @@ app.get('/menu/:o', (req: any, res: any) => {
       <br>
       <br>
       <a class='op' href='/do/${o}?e=${e}&n=${n}'>=</a>
+      <p class='footer'>Fun fact: This calculator works even with Javascript disabled! GPL 3.0/<a class='link' href='https://github.com/Jontes-Tech/noscriptcalc/graphs/contributors'>Contributors</a></p>
     </body>
   </html>
   `)
@@ -143,12 +161,30 @@ app.get('/do/:o', (req: any, res: any) => {
   let o = req.params.o
   let n = req.query.n
   let e = req.query.e
+  let result = -1
   if (!ops.includes(o)) {
     res.set('Cache-control', 'public, max-age=21600')
     res.send(`417 - Expected one of "${ops}", got "${o}"`)
     return
   }
-  res.redirect(`/?n=${Number(e) + Number(n)}`)
+  switch (o) {
+    case 'add':
+      result = Number(e) + Number(n)
+      break
+    case 'subtract':
+      result = Number(e) - Number(n)
+      break
+    case 'multiply':
+      result = Number(e) * Number(n)
+      break
+    case 'divide':
+      result = Number(e) / Number(n)
+      break
+    default:
+      res.send(`FATAL CALC ERROR: (This is not supposed to be happening!)`)
+      return
+  }
+  res.redirect(`/?n=${result}`)
 })
 
 // listen
